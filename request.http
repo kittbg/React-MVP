@@ -1,0 +1,11 @@
+###
+GET http://localhost:3000
+
+###
+GET http://localhost:3000/api/workoutdata
+
+###
+POST http://localhost:3000/api/workoutdata
+
+###
+DELETE http://localhost:3000/api/workoutdata
