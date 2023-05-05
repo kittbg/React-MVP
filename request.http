@@ -2,7 +2,7 @@
 GET http://localhost:3000
 
 ###
-GET http://localhost:3000/api/workoutdata
+GET http://localhost:3000/api/workout
 
 ###
 POST http://localhost:3000/api/workoutdata

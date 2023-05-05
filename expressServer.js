@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 dotenv.config();
 // 
 import pg from 'pg';
@@ -8,15 +9,16 @@ const client = new Client({connectionString: process.env.DATABASE_URL});
 client.connect();
 const app  = express();
 app.use(express.json());
+app.use(cors());
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res)=> {
     res.send('Success!')
 })
 
-app.get('/api/workoutdata', async(req, res) =>{
+app.get('/api/workout', async(req, res) =>{
   try {
-    let result = await client.query('SELECT * FROM workoutdata');
+    let result = await client.query('SELECT workout.date, exercise.name,  sets.reps, sets.weight, sets.duration FROM workout_exercise JOIN workout ON workout.id = workout_exercise.workout_id JOIN exercise ON exercise.id = workout_exercise.exercise_id JOIN sets ON workout_exercise.exercise_id = sets.exercise_id WHERE workout_exercise.workout_id = 1');
     res.json(result.rows)
   } catch (err){
     console.error(err);

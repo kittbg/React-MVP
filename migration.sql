@@ -1,39 +1,34 @@
-DROP TABLE IF EXISTS workoutData;
+DROP TABLE IF EXISTS workout CASCADE;
+DROP TABLE IF EXISTS workout_exercise CASCADE;
+DROP TABLE IF EXISTS exercise CASCADE;
+DROP TABLE IF EXISTS sets CASCADE;
 
-CREATE TABLE workoutData(
+CREATE TABLE workout(
     id serial PRIMARY KEY,
-    pullupSet1 integer,
-    pullUpSet1Wt integer,
-    pullupSet2 integer,
-    pullUpSet2Wt integer,
-    pullupSet3 integer,
-    pullUpSet3Wt integer,
-    pullupSet4 integer,
-    pullUpSet4Wt integer,
-    pullupSet5 integer,
-    pullUpSet5Wt integer,
-    pullUpTime TIME NOT NULL,
-    dipSet1 integer,
-    dipSet1Wt integer,
-    dipSet2 integer,
-    dipSet2Wt integer,
-    dipSet3 integer,
-    dipSet3Wt integer,
-    dipSet4 integer,
-    dipSet4Wt integer,
-    dipSet5 integer,
-    dipSet5Wt integer,
-    dipTime TIME NOT NULL,
-    squatSet1 integer,
-    squatSet1Wt integer,
-    squatSet2 integer,
-    squatSet2Wt integer,
-    squatSet3 integer,
-    squatSet3Wt integer,
-    squatSet4 integer,
-    squatSet4Wt integer,
-    squatSet5 integer,
-    squatSet5Wt integer,
-    squatTime TIME NOT NULL,
-    wkDate DATE NOT NULL DEFAULT CURRENT_DATE
+    date DATE 
 );
+
+CREATE TABLE exercise(
+    id serial PRIMARY KEY,
+    name text
+);
+
+CREATE TABLE workout_exercise(
+    id serial PRIMARY KEY,
+    workout_id integer NOT NULL,
+    exercise_id int NOT NULL,
+    FOREIGN KEY (workout_id) REFERENCES workout(id),
+    FOREIGN KEY (exercise_id) REFERENCES exercise(id)
+);
+
+CREATE TABLE sets(
+    id serial PRIMARY KEY,
+    reps integer,
+    weight integer,
+    duration integer,
+    exercise_id int NOT NULL,
+    workout_exercise_id int NOT NULL,
+    FOREIGN KEY (exercise_id) REFERENCES exercise(id),
+    FOREIGN KEY (workout_exercise_id) REFERENCES workout_exercise(id)
+);
+
