@@ -7,5 +7,15 @@ GET http://localhost:3000/api/workoutdata
 ###
 POST http://localhost:3000/api/workoutdata
 
+workoutdata {
+  pullupSet1: 5,
+  pullupSet1: 5,
+  pullupSet1: 5,
+  pullupSet1: 5,
+  pullupSet1: 5,
+  pullUpTime: 5:00,
+  wkDate: 04/05/2023
+}
+
 ###
 DELETE http://localhost:3000/api/workoutdata
