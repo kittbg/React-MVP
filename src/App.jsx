@@ -27,15 +27,21 @@ function App() {
     reps: '',
     weight: ''
   }])
+
+  // const [date, setDate] = useState([{
+  //   id: 1,
+  //   current: '',
+  // }])
   
   const handleSubmit= async()=>{
     console.log(pullups1);
     console.log(dips1);
     console.log(squats1);
+    console.log(date)
 
-    pullups1.map(element=>{element["name"]="pullups";element["date"]= '2023-04-30';element["duration"]=0})
-    dips1.map(element=>{element["name"]="dips";element["date"]= '2023-04-30';element["duration"]=0})
-    squats1.map(element=>{element["name"]="squats";element["date"]= '2023-04-30';element["duration"]=0})
+    pullups1.map(element=>{element["name"]="pullups";element["date"]='30-04-2023';element["duration"]=0})
+    dips1.map(element=>{element["name"]="dips";element["date"]='30-04-2023';element["duration"]=0})
+    squats1.map(element=>{element["name"]="squats";element["date"]='30-04-2023';element["duration"]=0})
     const jsonData = pullups1.concat(dips1).concat(squats1);
   
   jsonData.forEach(async (element)=>{  
@@ -64,6 +70,13 @@ function App() {
     console.log(result);
     setWorkouts(workouts => workouts.filter(w => w.id !== workout.id));
   }
+
+  // const handleChangeInputDate = (i, e) => {
+  //   console.log(e.target.value)
+  //   const values = [...date]
+  //   values[i][e.target.name] = e.target.value
+  //   setDate(values)
+  // }
 
   const handleChangeInput = (i, e) => {
     console.log(e.target.value)
@@ -129,14 +142,6 @@ function App() {
       .then(data => setWorkouts(data))
  }, []);
 
-//  useEffect(() => {
-//   fetch(`http://localhost:3000/api/workout/date?=${userInput}`)
-//   .then(response => response.json())
-//   .then(data => {
-//     const formattedData = data.map(data => ({...data, date: moment(data.date).format('DD-MM-YYYY')}));
-//     return formattedData
-//   })
-//  })
  
  const pullups = workouts.filter(workout => workout.name === 'pullups');
  const dips = workouts.filter(workout => workout.name === 'dips');
@@ -146,7 +151,7 @@ function App() {
   return (
     <Container>
       <Row>
-        <Col>Fitness Tracker</Col>
+        <Col class="title fs-2 fw-bold">Fitness Tracker</Col>
       </Row>
       <Row>
         <Col> 
@@ -155,7 +160,13 @@ function App() {
           <Row className='mt-5'>
             <Col md>
           <Form.Label>Date</Form.Label>
-         <Form.Control type="date" placeholder="Select Date"/>
+         <Form.Control 
+         type="date" 
+         placeholder="Select Date"
+         name="date"
+        //  value={date[i].current}
+        //  onChange={e => handleChangeInputDate(i, e)}
+         />
            </Col>
          </Row>
           {pullups1.map((pullups1, i)=> (
@@ -273,7 +284,7 @@ function App() {
          </button>
         </Col>
           <Col>
-            <Table striped bordered hover size="sm">
+            <Table striped bordered hover size="sm mt-5 text white">
               <thead>
                 <tr>
                   <th>#</th>
