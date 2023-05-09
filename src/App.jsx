@@ -28,31 +28,31 @@ function App() {
     weight: ''
   }])
 
-  // const [date, setDate] = useState([{
-  //   id: 1,
-  //   current: '',
-  // }])
+  const [date, setDate] = useState(undefined)
   
   const handleSubmit= async()=>{
+    // const date = moment(result.date).format('DD-MM-YYYY');
     console.log(pullups1);
     console.log(dips1);
     console.log(squats1);
     console.log(date)
-
-    pullups1.map(element=>{element["name"]="pullups";element["date"]='30-04-2023';element["duration"]=0})
-    dips1.map(element=>{element["name"]="dips";element["date"]='30-04-2023';element["duration"]=0})
-    squats1.map(element=>{element["name"]="squats";element["date"]='30-04-2023';element["duration"]=0})
+    
+    
+    pullups1.map(element=>{element["name"]="pullups";element["date"]=date;element["duration"]=0})
+    dips1.map(element=>{element["name"]="dips";element["date"]=date;element["duration"]=0})
+    squats1.map(element=>{element["name"]="squats";element["date"]=date;element["duration"]=0})
     const jsonData = pullups1.concat(dips1).concat(squats1);
-  
-  jsonData.forEach(async (element)=>{  
-    let options = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(element)
-    }
-    const response= await fetch('http://localhost:3000/api/workout',options);
-    const result = await response.json();
-    console.log(result);
+    
+    jsonData.forEach(async (element)=>{  
+      let options = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(element)
+      }
+      const response = await fetch('http://localhost:3000/api/workout',options);
+      const result = await response.json();
+      // const date = moment(result.date).format('DD-MM-YYYY');
+      // console.log(date)
     setWorkouts((workouts)=>[...workouts,result]);
   })
   
@@ -67,16 +67,15 @@ function App() {
     }
     const response = await fetch('http://localhost:3000/api/workout/',options)
     const result = await response.json();
-    console.log(result);
+    // const format = moment(result.date).format('DD-MM-YYYY');
+    // console.log(format);
     setWorkouts(workouts => workouts.filter(w => w.id !== workout.id));
   }
 
-  // const handleChangeInputDate = (i, e) => {
-  //   console.log(e.target.value)
-  //   const values = [...date]
-  //   values[i][e.target.name] = e.target.value
-  //   setDate(values)
-  // }
+  const handleChangeInputDate = (event) => {
+    setDate(event.target.value);
+  }
+  
 
   const handleChangeInput = (i, e) => {
     console.log(e.target.value)
@@ -151,24 +150,27 @@ function App() {
   return (
     <Container>
       <Row>
-        <Col class="title fs-2 fw-bold">Fitness Tracker</Col>
+        <Col className="title fs-2 fw-bold">Fitness Tracker</Col>
       </Row>
       <Row>
         <Col> 
         <Form>
          <Form.Group className="mb-3" controlId="exercise">
-          <Row className='mt-5'>
-            <Col md>
-          <Form.Label>Date</Form.Label>
-         <Form.Control 
-         type="date" 
-         placeholder="Select Date"
-         name="date"
-        //  value={date[i].current}
-        //  onChange={e => handleChangeInputDate(i, e)}
-         />
-           </Col>
-         </Row>
+
+     
+    <Row className='mt-5'>
+      <Col md>
+        <Form.Label>Date</Form.Label>
+        <Form.Control 
+          type="date" 
+          placeholder="Select Date"
+          name="date"
+          // value={date.date}
+          onChange={handleChangeInputDate}
+          />
+      </Col>
+    </Row>
+
           {pullups1.map((pullups1, i)=> (
             <div key={pullups1.id}>
 
@@ -226,7 +228,7 @@ function App() {
          placeholder="Enter wt"
          name='weight'
          value={dips1.weight}
-        onChange={e => handleChangeInput1(i, e)}
+         onChange={e => handleChangeInput1(i, e)}
           />
            </Col> 
            <Col md>
@@ -284,10 +286,10 @@ function App() {
          </button>
         </Col>
           <Col>
-            <Table striped bordered hover size="sm mt-5 text white">
+            <Table striped bordered hover size="sm mt-5">
               <thead>
                 <tr>
-                  <th>#</th>
+                  <th>Sets</th>
                   <th>Reps</th>
                   <th>Weight</th>
                   <th>Time</th>
